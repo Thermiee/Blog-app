@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  
   describe 'Name' do
     it 'should return invalid since it needs characters' do
       @user.name = ''
