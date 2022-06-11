@@ -3,13 +3,14 @@ class Post < ApplicationRecord
   has_many :comments
   belongs_to :author, class_name: 'User'
 
-  def increment_counter
-    user = User.find_by(id: author_id)
-    if user.posts_counter
-      user.update(posts_counter: user.posts_counter + 1)
-    else
-      user.update(posts_counter: 1)
-    end
+  after_save :increment_post_counter
+  after_destroy :decrement_post_counter
+  def decrement_post_counter
+    author.decrement!(:post_count)
+  end
+
+  def increment_post_counter
+    author.increment!(:post_count)
   end
 
   def recent_comments
