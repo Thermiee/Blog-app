@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Post', type: :system do
-  context 'show page' do
+  describe 'show page' do
     before(:each) do
       @user = User.create!(name: 'Candy', photo: '#photo_candy', bio: 'bio',
                            email: 'test@domain.com', password: 'password', posts_counter: 0)

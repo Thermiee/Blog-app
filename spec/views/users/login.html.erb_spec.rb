@@ -23,7 +23,8 @@ RSpec.feature 'Login page', type: :feature do
     end
 
     scenario 'Submitting form with the correct email and password' do
-      @user = User.create(name: 'Parker Peter', email: 'Temmy@gmail.com', password: '123456', bio: 'Iam a software developer',
+      @user = User.create(name: 'Parker Peter', email: 'Temmy@gmail.com', password: '123456',
+                          bio: 'Iam a software developer',
                           photo: 'https://Temmy.com', posts_counter: 0)
       visit new_user_session_path
       fill_in 'Email', with: @user.email
