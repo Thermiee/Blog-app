@@ -1,24 +1,24 @@
 class Post < ApplicationRecord
-  has_many :likes
-  has_many :comments
-  belongs_to :author, class_name: 'User'
+  belongs_to :author, class_name: 'User', autosave: true
+  has_many :comments, dependent: :destroy
+  has_many :likes, dependent: :destroy
 
-  after_save :increment_post_counter
-  after_destroy :decrement_post_counter
+  after_save :update_post_counter
+  before_destroy :update_posts_down
 
-  validates :title, length: { minimum: 1, maximum: 250 }
-  validates :comments_counter, numericality: { greater_than_or_equal_to: 0 }
-  validates :likes_counter, numericality: { greater_than_or_equal_to: 0 }
+  validates :title, presence: true, allow_blank: false, length: { maximum: 250 }
+  validates :comments_counter, numericality: { only_integer: true }, comparison: { greater_than_or_equal_to: 0 }
+  validates :likes_counter, numericality: { only_integer: true }, comparison: { greater_than_or_equal_to: 0 }
 
-  def decrement_post_counter
-    author.decrement!(:post_count)
-  end
-
-  def increment_post_counter
-    author.increment!(:post_count)
+  def update_post_counter
+    author.increment!(:posts_counter)
   end
 
   def recent_comments
-    Comment.where(post_id: id).limit(5)
+    comments.order(created_at: :desc).includes([:author]).limit(5)
+  end
+
+  def update_posts_down
+    author.update_columns('posts_counter' => author.posts_counter - 1)
   end
 end

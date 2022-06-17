@@ -3,6 +3,9 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '3.0.1'
 
+# Linters
+gem 'rubocop', '>= 1.0', '< 2.0'
+
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem 'rails', '~> 7.0.3'
 
@@ -14,11 +17,6 @@ gem 'pg', '~> 1.1'
 
 # Use the Puma web server [https://github.com/puma/puma]
 gem 'puma', '~> 5.0'
-
-# Use the devise gem to create a user authentication system
-gem 'devise'
-
-gem 'letter_opener'
 
 # Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]
 gem 'importmap-rails'
@@ -32,6 +30,17 @@ gem 'stimulus-rails'
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem 'jbuilder'
 
+# Use the devise gem as the session and account manager for application
+gem 'devise'
+
+gem 'letter_opener'
+
+# Use cancancan for authorization rules
+gem 'cancancan'
+
+# Use boostrap gem
+gem 'bootstrap', '~> 5.1.3'
+
 # Use Redis adapter to run Action Cable in production
 # gem "redis", "~> 4.0"
 
@@ -42,10 +51,13 @@ gem 'jbuilder'
 # gem "bcrypt", "~> 3.1.7"
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
+gem 'tzinfo-data'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', require: false
+
+# Use Sass for stylesheets
+gem 'sass-rails'
 
 # Use Sass to process CSS
 # gem "sassc-rails"
@@ -56,6 +68,7 @@ gem 'bootsnap', require: false
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem 'debug', platforms: %i[mri mingw x64_mingw]
+  gem 'pry', '~> 0.13.1'
   gem 'rails-controller-testing'
   gem 'rspec-rails', '~> 6.0.0.rc1'
 end

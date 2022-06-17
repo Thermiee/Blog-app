@@ -1,26 +1,29 @@
-<div class="center flex-column m-3">
-    <%= render partial: "shared/user", locals: {user: @user}%>
-    <div class="w-50 w-100-mobile mb-3 bg-light p-2 border">
-      <h3>Bio</h3>
-      <p><%= @user.bio %></p>
+<div class="users-bloc" id="user_<%= @user.id %>">
+  <div class="user-bloc">
+    <div class="user-image">
+      <img src="<%= @user.photo %>" alt="user image">
     </div>
-    <div class="d-flex flex-column w-50 w-100-mobile">
-      <% @user.recent_posts.each do |post| %>
-        <div class="d-flex flex-column bg-light p-2 border mb-3">
-          <h5><%= link_to post.title, user_post_path(@user, post.id), class: "no-style" %></h5>
-          <p><%= post.text %></p>
-          <p class="small align-self-end">
-            Comments
-            <span class="badge bg-secondary">
-              <%= post.comments_counter %>
-            </span>
-            Likes
-            <span class="badge bg-secondary">
-              <%= post.likes_counter %>
-            </span>
-          </p>
-        </div>
-      <% end %>
+    <div class="user-data">
+      <h4 class="user-name"><%= @user.name %></h4>
+      <span class="user-posts">Number of posts: <%= @user.posts_counter || 0 %></span>
     </div>
-    <%= link_to "See all posts" , user_posts_path(@user.id), class: "btn btn-primary" %>
   </div>
+  <div class="user-bio">
+    <h4>Bio</h4>
+    <span class="user-bio-content"><%= @user.bio %></span>
+  </div>
+  <div class="user-bloc-posts">
+    <% @user.recent_posts.each do |post| %>
+    <div class="user-bloc-post">
+      <%= link_to user_post_path(@user, post) do %>
+        <h4><%= post.title %></h4>
+      <% end %>
+      <span class="user-post-content"><%= post.text %></span>
+      <span class="user-post-content-comments">Comment: <%= post.comments_counter || 0 %>, Likes : <%= post.likes_counter || 0 %></span>
+    </div>
+    <% end %>
+  </div>
+  <button class="see-posts clickable">
+    <%= link_to 'See All Posts', user_posts_path(@user) %>
+  </button>
+</div>

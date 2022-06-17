@@ -1,33 +1,42 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  before(:example) do
-    @user = User.create(name: 'Emmanuel', photo: 'random_link.png', bio: 'Test right now!',
-                        email: 'test@domain.com')
-    @user.confirm
+  before(:all) do
+    @user = User.create(name: 'Cynthia', photo: 'https://unsplash.com/photos/F_-0BxGuVvo', posts_counter: 0,
+                        bio: 'Teacher from Mexico.')
   end
 
-  describe 'Name' do
-    it 'should return invalid since it needs characters' do
-      @user.name = ''
+  it 'should return posts_counter greater than or equal to 0' do
+    @user.posts_counter = -9
+    expect(@user).to_not be_valid
 
-      expect(@user).to_not be_valid
-    end
+    @user.posts_counter = 0
+    expect(@user).to be_valid
 
-    it 'should return valid since it has characters' do
-      expect(@user).to be_valid
-    end
+    @user.posts_counter = 18
+    expect(@user).to be_valid
   end
 
-  describe 'posts_counter' do
-    it 'should return invalid since it need to be an integer greater than or equal to zero' do
-      @user.posts_counter = -1
+  it 'should have name not equal to nil' do
+    @user.name = 'Cynthia'
+    expect(@user).to be_valid
 
-      expect(@user).to_not be_valid
-    end
+    @user.name = nil
+    expect(@user).to_not be_valid
+  end
 
-    it 'should return valid' do
-      expect(@user).to be_valid
-    end
+  it 'should have post counter numericaly' do
+    @user.posts_counter = 'one'
+    expect(@user).to_not be_valid
+  end
+
+  it 'should return less than 5 posts ' do
+    value = @user.recent_posts.length
+    expect(value).to be < 5
+  end
+
+  it 'should have name not empty' do
+    @user.name = ''
+    expect(@user).to_not be_valid
   end
 end
