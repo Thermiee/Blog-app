@@ -2,34 +2,38 @@ require 'rails_helper'
 
 RSpec.describe 'Users', type: :request do
   describe 'GET /index' do
-    before(:example) { get '/users' }
+    before(:example) { get users_path }
 
-    it('should respond with a successful http status') do
-      expect(response).to have_http_status(:ok)
+    it 'should return http success' do
+      expect(response).to have_http_status(:success)
     end
 
-    it('should render appropriate template') do
+    it 'should render template' do
       expect(response).to render_template(:index)
     end
 
-    it('should include correct placeholder text') do
-      expect(response.body).to include 'Here is a list of users'
+    it 'should render placeholder text' do
+      expect(response.body).to include 'Welcome to Blog App'
     end
   end
 
   describe 'GET /show' do
-    before(:example) { get '/users/:id' }
-
-    it('should respond with a successful http status') do
-      expect(response).to have_http_status(:ok)
+    before(:example) do
+      @user = User.create(name: 'Emmanuel', photo: 'random_link.png', bio: 'Testing right now!')
+      @user.confirm
+      get user_path(@user.id)
     end
 
-    it('should render appropriate template') do
+    it 'should return http success' do
+      expect(response).to have_http_status(:success)
+    end
+
+    it 'should render template' do
       expect(response).to render_template(:show)
     end
 
-    it('should include correct placeholder text') do
-      expect(response.body).to include 'Here is the profile for a given a user'
+    it 'should render placeholder text' do
+      expect(response.body).to include 'Bio'
     end
   end
 end

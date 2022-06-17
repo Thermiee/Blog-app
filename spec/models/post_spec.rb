@@ -1,6 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe Post, type: :model do
+  before(:example) do
+    @user = User.create(name: 'Emmanuel', photo: 'random_link.png', bio: "I'm testing right now!")
+    @user.confirm
+    @post = Post.create(author_id: @user.id, title: 'Controller Spec', text: 'testing!')
+  end
+
   describe 'Title' do
     it 'should return invalid since it needs characters' do
       @post.title = ''
@@ -13,7 +19,7 @@ RSpec.describe Post, type: :model do
       expect(@post).to_not be_valid
     end
 
-    it 'should return valid since it\'s between 0 and 250 characters' do
+    it "should return valid since it's between 1 and 250 characters" do
       @post.title = 'a' * 50
       expect(@post).to be_valid
     end

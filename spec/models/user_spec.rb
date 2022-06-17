@@ -1,6 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
+  before(:example) do
+    @user = User.create(name: 'Emmanuel', photo: 'random_link.png', bio: 'Test right now!',
+                        email: 'test@domain.com')
+    @user.confirm
+  end
+
   describe 'Name' do
     it 'should return invalid since it needs characters' do
       @user.name = ''
