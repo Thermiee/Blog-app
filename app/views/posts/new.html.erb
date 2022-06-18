@@ -1,20 +1,13 @@
-<div class="container">
-  <%= form_with model: @post, url: user_posts_path, data: {turbo: false } do |form| %>
-  <% if @post.errors.any? %>
-    <div class="alert alert-danger mt-4" role="alert">
-      <% @post.errors.full_messages.each do |message| %>
-        <div><%= message %></div>
-      <% end %>
+<div class="mt-5">
+  <%= form_with(model: @post, url: [@user, @post]) do |form| %>
+    <div>
+      <%= form.text_field :title, placeholder: 'Enter post title' %>  
     </div>
+    
+    <div class="mt-2">
+      <%= form.text_area :text, placeholder: 'Enter post text' %>  
+    </div>
+    
+    <%= form.submit "Add new post", class: 'pagination text-center' %>
   <% end %>
-      <div class="mb-3">
-        <%= form.label :title, "Title:", class: "form-label" %>
-        <%= form.text_field :title, class: "form-control", placeholder: "type something" %>
-      </div>
-      <div class="mb-3">
-        <%= form.label :text, class: "form-label" %>
-        <%= form.text_area :text, class: "form-control", placeholder: "type something" %>
-      </div>
-      <%= form.submit "Create Post", class: "btn btn-primary" %>
-    <% end %>
-  </div>
+</div>

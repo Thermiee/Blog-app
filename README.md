@@ -39,6 +39,12 @@ To get a local copy up and running follow these simple example steps.
 - GitHub: [@Thermiee](https://github.com/Thermiee)
 - LinkedIn: [Emmanuel](https://www.linkedin.com/in/emmanuel-jolugbo/)
 
+👤 **Candy Inga Cynthia**
+
+- GitHub: [@cynthiainga](https://github.com/cynthiainga)
+- Twitter: [@CynthiaInga_C](https://twitter.com/CynthiaInga_C)
+- LinkedIn: [Cynthia Inga](https://www.linkedin.com/in/cynthia-inga/)
+
 ## 🤝 Contributing
 
 Contributions, issues, and feature requests are welcome!

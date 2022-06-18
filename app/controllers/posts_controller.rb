@@ -1,30 +1,47 @@
 class PostsController < ApplicationController
-  def index
-    @user = User.find_by(id: params[:user_id])
-  end
+  load_and_authorize_resource
 
-  def show
-    @post = Post.find_by(id: params[:id])
+  def index
+    @user = User.find(params[:user_id])
+    @posts = @user.posts.includes(:comments)
   end
 
   def new
     @post = Post.new
+    @user = User.find(params[:user_id])
   end
 
   def create
     @post = Post.new(post_params)
-    @post.author = current_user
 
     if @post.save
-      redirect_to root_path
+      flash[:notice] = 'New post created successfully!'
+      redirect_to { user_posts(current_user) }
     else
-      render :new
+      flash[:alert] = 'Can not add a new post.'
+      redirect_to { new_user_post(current_user) }
     end
+  end
+
+  def show
+    @post = Post.includes(:comments).find(params[:id])
+  end
+
+  def destroy
+    post = Post.find(params[:id])
+    post.destroy
+    redirect_to user_path(params[:user_id])
   end
 
   private
 
   def post_params
-    params.require(:post).permit(:title, :text)
+    a_post = params.require(:post).permit(:title, :text)
+    a_post[:author] = current_user
+    a_post
+  end
+
+  def post_params_setup
+    Post.create(author: current_user, title: params[:post][:title], text: params[:post][:text])
   end
 end

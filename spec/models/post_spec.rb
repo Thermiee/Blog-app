@@ -1,45 +1,65 @@
 require 'rails_helper'
 
 RSpec.describe Post, type: :model do
-  describe 'Title' do
-    it 'should return invalid since it needs characters' do
-      @post.title = ''
-
-      expect(@post).to_not be_valid
-    end
-
-    it 'should return invalid since it has more than 250 characters' do
-      @post.title = 'a' * 251
-      expect(@post).to_not be_valid
-    end
-
-    it 'should return valid since it\'s between 0 and 250 characters' do
-      @post.title = 'a' * 50
-      expect(@post).to be_valid
-    end
+  before(:all) do
+    @user = User.create(name: 'Cynthia', photo: 'https://unsplash.com/photos/F_-0BxGuVvo', posts_counter: 0,
+                        bio: 'Teacher from Mexico.')
+    @post = Post.create(title: 'My first post', author: @user)
   end
 
-  describe 'comments_counter' do
-    it 'should return invalid since it need to be an integer greater than or equal to zero' do
-      @post.comments_counter = -1
+  it 'should return comments_counter greater than or equal to 0' do
+    @post.comments_counter = -15
+    expect(@post).to_not be_valid
 
-      expect(@post).to_not be_valid
-    end
+    @post.comments_counter = 0
+    expect(@post).to be_valid
 
-    it 'should return valid' do
-      expect(@post).to be_valid
-    end
+    @post.comments_counter = 16
+    expect(@post).to be_valid
   end
 
-  describe 'likes_counter' do
-    it 'should return invalid since it need to be an integer greater than or equal to zero' do
-      @post.likes_counter = -1
+  it 'should return likes_counter greater than or equal to 0' do
+    @post.likes_counter = -13
+    expect(@post).to_not be_valid
 
-      expect(@post).to_not be_valid
-    end
+    @post.likes_counter = 0
+    expect(@post).to be_valid
 
-    it 'should return valid' do
-      expect(@post).to be_valid
-    end
+    @post.likes_counter = 19
+    expect(@post).to be_valid
+  end
+
+  it 'should have likes_counter numericaly' do
+    @post.likes_counter = 'one'
+    expect(@post).to_not be_valid
+
+    @post.likes_counter = 20
+    expect(@post).to be_valid
+  end
+
+  it 'should have title not empty' do
+    @post.title = 'My first post'
+    expect(@post).to be_valid
+
+    @post.title = ''
+    expect(@post).to_not be_valid
+  end
+
+  it 'should have title not equal to nil' do
+    @post.title = nil
+    expect(@post).to_not be_valid
+  end
+
+  it 'should have title max length 250' do
+    @post.title = 'a' * 251
+    expect(@post).to_not be_valid
+
+    @post.title = 'b' * 250
+    expect(@post).to be_valid
+  end
+
+  it 'should return less than 5 comments ' do
+    value = @post.recent_comments.length
+    expect(value).to be < 5
   end
 end
