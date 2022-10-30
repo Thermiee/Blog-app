@@ -14,14 +14,7 @@ Created while learning Ruby on Rails as a practice project.
 
 ## Getting Started
 
-To get a local copy up and running follow these simple example steps.
-
-### Prerequisites
-
-- Ruby
-- Rails
-- Postgresql
-
+To get a local copy up and running follow these simple example 
 ### Setup
 
 - Clone the Repository
